@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Snake Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ 
+  <h1 id="gameTitle">🐍 Snake Game 🐍</h1>
+
+<div id="gameContainer">
+  <div id="gameBoard"></div>
+
+  <div id="sidePanel">
+    <div id="scoreBoard">
+      <div id="score">Score: 0</div>
+      <div id="highScore">High Score: 0</div>
+    </div>
+    <p id="gameOver">Game Over!</p>
+    <button id="restartBtn">Restart</button>
+  </div>
+</div>
+
+  <script>
+    const board = document.getElementById("gameBoard");
+    const scoreEl = document.getElementById("score");
+    const highScoreEl = document.getElementById("highScore");
+    const gameOverEl = document.getElementById("gameOver");
+    const restartBtn = document.getElementById("restartBtn");
+
+    const boardSize = 20;
+    let snake, food, dx, dy, score, speed, interval, highScore = 0;
+    let isMoving = false; // NEW FLAG
+
+    function initGame() {
+      snake = [{ x: 10, y: 10 }];
+      dx = 0; dy = 0;
+      isMoving = false; // don’t move until arrow pressed
+      score = 0;
+      speed = 200;
+      food = randomFood();
+      gameOverEl.style.display = "none";
+      restartBtn.style.display = "none";
+      scoreEl.textContent = "Score: " + score;
+      clearInterval(interval);
+      interval = setInterval(gameLoop, speed);
+      draw();
+    }
+
+    function randomFood() {
+      let newFood;
+      do {
+        newFood = {
+          x: Math.floor(Math.random() * boardSize),
+          y: Math.floor(Math.random() * boardSize)
+        };
+      } while (snake.some(p => p.x === newFood.x && p.y === newFood.y));
+      return newFood;
+    }
+
+    function draw() {
+      board.innerHTML = "";
+      snake.forEach((part, index) => {
+        const el = document.createElement("div");
+        el.style.gridRowStart = part.y + 1;
+        el.style.gridColumnStart = part.x + 1;
+        el.classList.add(index === 0 ? "snake-head" : "snake");
+        board.appendChild(el);
+      });
+      const foodEl = document.createElement("div");
+      foodEl.style.gridRowStart = food.y + 1;
+      foodEl.style.gridColumnStart = food.x + 1;
+      foodEl.classList.add("food");
+      board.appendChild(foodEl);
+    }
+
+    function move() {
+      if (!isMoving) return; // don’t move until arrow pressed
+
+      const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+      if (
+        head.x < 0 || head.x >= boardSize ||
+        head.y < 0 || head.y >= boardSize ||
+        snake.some(p => p.x === head.x && p.y === head.y)
+      ) {
+        gameOver();
+        return;
+      }
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        scoreEl.textContent = "Score: " + score;
+        food = randomFood();
+        if (speed > 60) {
+          speed -= 10;
+          clearInterval(interval);
+          interval = setInterval(gameLoop, speed);
+        }
+      } else {
+        snake.pop();
+      }
+    }
+
+    function gameOver() {
+      clearInterval(interval);
+      gameOverEl.style.display = "block";
+      restartBtn.style.display = "inline-block";
+      if (score > highScore) {
+        highScore = score;
+        highScoreEl.textContent = "High Score: " + highScore;
+      }
+    }
+
+    function gameLoop() {
+      move();
+      draw();
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowUp" && dy === 0) {
+        dx = 0; dy = -1; isMoving = true;
+      } else if (e.key === "ArrowDown" && dy === 0) {
+        dx = 0; dy = 1; isMoving = true;
+      } else if (e.key === "ArrowLeft" && dx === 0) {
+        dx = -1; dy = 0; isMoving = true;
+      } else if (e.key === "ArrowRight" && dx === 0) {
+        dx = 1; dy = 0; isMoving = true;
+      }
+    });
+
+    restartBtn.addEventListener("click", initGame);
+
+    initGame();
+
+    // Add touch controls for mobile devices
+    let startX, startY;
+
+document.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  let endY = e.changedTouches[0].clientY;
+
+  let diffX = endX - startX;
+  let diffY = endY - startY;
+
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    // horizontal swipe
+    if (diffX > 0 && velocity.x !== -1) velocity = { x: 1, y: 0 }; // right
+    else if (diffX < 0 && velocity.x !== 1) velocity = { x: -1, y: 0 }; // left
+  } else {
+    // vertical swipe
+    if (diffY > 0 && velocity.y !== -1) velocity = { x: 0, y: 1 }; // down
+    else if (diffY < 0 && velocity.y !== 1) velocity = { x: 0, y: -1 }; // up
+  }
+});
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+/* ====== General Page Style ====== */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(to bottom, #006400, #228b22, #32cd32); /* grass-like gradient */
+  font-family: Arial, sans-serif;
+  color: white;
+  overflow: hidden;
+}
+
+/* ====== Title ====== */
+#gameTitle {
+  font-size: 40px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 5px black;
+  margin: 20px 0;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* ====== Game + Sidebar Layout ====== */
+#gameContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* ====== Game Board ====== */
+#gameBoard {
+  display: grid;
+  grid-template-columns: repeat(20, 20px);
+  grid-template-rows: repeat(20, 20px);
+  gap: 1px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 3px solid #0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+}
+
+/* ====== Snake Style ====== */
+.snake {
+  background: linear-gradient(135deg, #327acd, #440fa7);
+  border-radius: 50%;
+  margin: 1px;
+}
+
+/* Snake Head (with eyes 👀) */
+.snake-head {
+  background: linear-gradient(135deg, #7c05ac, #086bad);
+  border-radius: 50%;
+  position: relative;
+}
+
+/* Eyes */
+.snake-head::before,
+.snake-head::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: black;
+  border-radius: 50%;
+  top: 4px;
+}
+
+.snake-head::before {
+  left: 6px;
+}
+.snake-head::after {
+  right: 6px;
+}
+
+/* ===== Food Styling ===== */
+.food {
+  background: rgb(156, 11, 11);
+  border-radius: 50%;
+  border: 1px solid #c29494;
+}
+/* ====== Sidebar ====== */
+#sidePanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+  min-width: 150px;
+}
+
+/* ====== Scoreboard ====== */
+#scoreBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+  gap: 5px;
+}
+
+/* ====== Game Over Text ====== */
+#gameOver {
+  display: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff5555;
+  text-shadow: 1px 1px 4px black;
+  text-align: center;
+}
+
+/* ====== Restart Button ====== */
+#restartBtn {
+  display: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  background: #0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0,255,0,0.6);
+  transition: 0.2s;
+}
+#restartBtn:hover {
+  background: #1aff1a;
+}

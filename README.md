@@ -35,6 +35,6 @@ Players can enjoy it on both **desktop (keyboard controls)** and **mobile (touch
 
 ## 🚀 Live Demo  
 
-🔗 [Play Here](Your_Link)  
+🔗 [snake game ](https://sana-com.github.io/snake-game/)  
 
 ---
